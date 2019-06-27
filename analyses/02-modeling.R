@@ -49,7 +49,7 @@ models$data[[7]] <- dat %>%
 models <- models %>%
   dplyr::mutate(
     ind.obs = purrr::map(data, "age"),
-    dep.obs = purrr::map(data, "avg.length")
+    dep.obs = purrr::map(data, "length")
   )
 
 #............................................
