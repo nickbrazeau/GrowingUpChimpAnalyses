@@ -1,8 +1,13 @@
+library(remotes)
+remotes::install_github("nickbrazeau/JPPSiterweight")
 library(JPPSiterweight)
 library(tidyverse)
-library(remotes)
 
 dat <- readRDS("data/chimpanzee_lengthage_averages.rds")
+reps_to_run <- 1
+
+
+
 #................................................
 # Make Modeling Object for Comparisons
 #...............................................
@@ -56,9 +61,9 @@ models <- models %>%
 # Now add some initial conditoins we need
 #.............................................
 models$B <- purrr::map(models$dep.obs, mean) %>%
-  unlist()
+  unlist() # get mean for B by group/model spec
 
-models$initparams <- lapply(1:nrow(models), function(x){return(c(""))})
+models$initparams <- lapply(1:nrow(models), function(x){return(c(""))}) # make empty dataframe for params
 
 models$initparams[[1]] <- c(B = models$B[[1]],
                             D1 = 8.835 , D2 = 9.450, D3 = 28.465, C1 = 3.355, C2 = 12.990, C3 = 1.005) # combined
@@ -85,7 +90,7 @@ models$initparams[[7]] <- c(B = models$B[[7]],
 # add reps as a parameter we are going to use
 models <- models %>%
   dplyr::select(-c("B")) %>%
-  dplyr::mutate(reps = 1e2)
+  dplyr::mutate(reps = reps_to_run)
 
 
 
@@ -102,7 +107,7 @@ models$ONLSmodels <- purrr::pmap(models[,c("ind.obs", "dep.obs", "initparams", "
 
                                   ret.ord.params <- ret.ord %>%
                                       purrr::map(., "params")
-                                  ret.ord.params <- as.data.frame(do.call(rbind, ret.ord.params))
+                                  ret.ord.params <- as.data.frame(do.call(rbind, ret.ord.params)) # combines individual runs into a dataframe
                                   return(ret.ord.params)
                                   }) # end purrr function
 

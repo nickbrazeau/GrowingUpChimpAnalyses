@@ -19,7 +19,7 @@ make_FO_plot <- function(lowerCIpredsFO, medianCIpredsFO, upperCIpredsFO){
 
   FO.plot <- ggplot() +
     geom_smooth(data = medianCIpredsFO, aes(x = age, y = outcome), color = "#08306b") +
-    geom_ribbon(data = FO.CIbind, aes(x = age, ymin = outcome.y, ymax = outcome.x), color = NA, fill = "#c6dbef", alpha = 0.4) +
+#    geom_ribbon(data = FO.CIbind, aes(x = age, ymin = outcome.y, ymax = outcome.x), color = NA, fill = "#c6dbef", alpha = 0.4) +
     xlab("Age (years)") + ylab("Growth (cm)") +
     mytheme
 
@@ -33,10 +33,8 @@ make_SO_plot <-  function(lowerCIpredsSO,
   SO.CIbind <- dplyr::left_join(lowerCIpredsSO, upperCIpredsSO, by = "age")
   SO.plot <- ggplot() +
     geom_line(data  = medianCIpredsSO, aes(x = age, y = outcome), color = "#08306b") +
-    geom_ribbon(data = SO.CIbind, aes(x = age, ymin = outcome.x, ymax = outcome.y), color = NA, fill = "#c6dbef", alpha = 0.4) +
+#    geom_ribbon(data = SO.CIbind, aes(x = age, ymin = outcome.x, ymax = outcome.y), color = NA, fill = "#c6dbef", alpha = 0.4) +
     xlab("Age (years)") + ylab("Growth (cm/year)") +
-    ggtitle("Growth Trajectories by Age for All Individuals") +
-    ylim(0,8) +
     mytheme
 
   return(SO.plot)

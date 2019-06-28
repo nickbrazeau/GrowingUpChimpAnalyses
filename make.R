@@ -1,0 +1,5 @@
+source("analyses/01-Summaries.R")
+source("analyses/02-modeling_length.R")
+source("analyses/03-modeling_lengthcubed.R")
+source("analyses/04-predictions_length.R")
+source("analyses/05-predictions_lengthcubed.R")

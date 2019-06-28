@@ -4,6 +4,8 @@ library(remotes)
 
 dat <- readRDS("data/chimpanzee_lengthage_averages.rds") %>%
   dplyr::mutate(lengthcubed = length^3)
+reps_to_run <- 1
+
 
 #................................................
 # Make Modeling Object for Comparisons
@@ -87,7 +89,7 @@ models$initparams[[7]] <- c(B = models$B[[7]],
 # add reps as a parameter we are going to use
 models <- models %>%
   dplyr::select(-c("B")) %>%
-  dplyr::mutate(reps = 1e2)
+  dplyr::mutate(reps = reps_to_run)
 
 
 
