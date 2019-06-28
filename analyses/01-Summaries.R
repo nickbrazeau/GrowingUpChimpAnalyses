@@ -4,12 +4,14 @@ library(tidyverse)
 #..........................
 # read in data
 #..........................
-knywr <- readxl::read_excel(path = "~/Google_Drive/Kanyawara_Work/KCP_Body_Size_2012data_VisitJun2019/2012 Final Measures NFB_ZPM_6_27_19.xlsx", sheet = 6) %>%
+knywr <- readxl::read_excel(path = "~/Google_Drive/Kanyawara_Work/KCP_Body_Size_2012data_VisitJun2019/2012 Final Measures NFB_ZPM_6_27_19_1054pm.xlsx",
+                            sheet = 5) %>%
   dplyr::rename(id = ChimpID_Final,
-                length = AvgOfAvg_Length_Series,
-                age = AvgOfAge
+                length = AvgLength,
+                age = AvgOfage
                 ) %>%
-  dplyr::mutate(site = "Kanyawara")
+  dplyr::mutate(site = "Kanyawara") %>%
+  select(-c("SumOfPhoto_count"))
 
 cpt <- readxl::read_excel(path = "~/Google_Drive/Kanyawara_Work/KCP_Body_Size_2012data_VisitJun2019/Ngamba and UWEC weights with area and length.xlsx", sheet = 1) %>%
   dplyr::rename(length = avg.length) %>%

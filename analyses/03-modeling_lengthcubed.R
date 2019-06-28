@@ -2,7 +2,9 @@ library(JPPSiterweight)
 library(tidyverse)
 library(remotes)
 
-dat <- readRDS("data/chimpanzee_lengthage_averages.rds")
+dat <- readRDS("data/chimpanzee_lengthage_averages.rds") %>%
+  dplyr::mutate(lengthcubed = length^3)
+
 #................................................
 # Make Modeling Object for Comparisons
 #...............................................
@@ -16,7 +18,7 @@ models <- tibble(
 
 
 # init empty dataframes
-initdf <- data.frame(age = NA, length = NA)
+initdf <- data.frame(age = NA, lengthcubed = NA)
 models$data <- lapply(1:nrow(initdf), function(x){return(initdf)}) # gross hack
 
 # fill in the dataframes
@@ -49,7 +51,7 @@ models$data[[7]] <- dat %>%
 models <- models %>%
   dplyr::mutate(
     ind.obs = purrr::map(data, "age"),
-    dep.obs = purrr::map(data, "length")
+    dep.obs = purrr::map(data, "lengthcubed")
   )
 
 #............................................
@@ -131,6 +133,6 @@ models$IRNLSmodels <- purrr::pmap(models[,c("ind.obs", "dep.obs", "initparams", 
 
 
 # save out for predictions
-saveRDS(models, file = "data/model_results_length.RDS")
+saveRDS(models, file = "data/model_results_lengthcubed.RDS")
 
 
