@@ -4,7 +4,7 @@ library(remotes)
 
 dat <- readRDS("data/chimpanzee_lengthage_averages.rds") %>%
   dplyr::mutate(lengthcubed = length^3)
-reps_to_run <- 1e2
+reps_to_run <- 1e4
 
 
 #................................................

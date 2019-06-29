@@ -4,7 +4,7 @@ library(JPPSiterweight)
 library(tidyverse)
 
 dat <- readRDS("data/chimpanzee_lengthage_averages.rds")
-reps_to_run <- 1e2
+reps_to_run <- 1e4
 
 
 

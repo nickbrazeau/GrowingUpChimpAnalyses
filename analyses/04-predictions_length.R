@@ -58,41 +58,41 @@ IRNLSmodels <- models %>%
   )
 
 
-IRNLSmodels$FOplots <- purrr::pmap(ONLSmodels[,c("lowerCIpredsFO", "medianCIpredsFO", "upperCIpredsFO")], .f = make_FO_plot)
-IRNLSmodels$SOplots <- purrr::pmap(ONLSmodels[,c("lowerCIpredsSO", "medianCIpredsSO", "upperCIpredsSO")], .f = make_SO_plot)
-IRNLSmodels$fullplots <- purrr::pmap(ONLSmodels[,c("FOplots", "SOplots")], make_fullplot)
+IRNLSmodels$FOplots <- purrr::pmap(IRNLSmodels[,c("lowerCIpredsFO", "medianCIpredsFO", "upperCIpredsFO")], .f = make_FO_plot)
+IRNLSmodels$SOplots <- purrr::pmap(IRNLSmodels[,c("lowerCIpredsSO", "medianCIpredsSO", "upperCIpredsSO")], .f = make_SO_plot)
+IRNLSmodels$fullplots <- purrr::pmap(IRNLSmodels[,c("FOplots", "SOplots")], make_fullplot)
 
 
 #...................................................
 # Write out Final Figures
 #....................................................
-figpathout <- "~/Google_Drive/Kanyawara_Work/KCP_Body_Size_2012data_VisitJun2019/finalfigures/"
-svglite::svglite(file = paste0(figpathout, "kanyawara-combined.svg"), width = 11, height = 8)
+pathout <- "~/Google_Drive/Kanyawara_Work/KCP_Body_Size_2012data_VisitJun2019/final/"
+svglite::svglite(file = paste0(pathout, "length/kanyawara-combined.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[1]]
 graphics.off()
 
-svglite::svglite(file = paste0(figpathout, "kanyawara-males.svg"), width = 11, height = 8)
+svglite::svglite(file = paste0(pathout, "length/kanyawara-males.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[2]]
 graphics.off()
 
 
-svglite::svglite(file = paste0(figpathout, "kanyawara-females.svg"), width = 11, height = 8)
+svglite::svglite(file = paste0(pathout, "length/kanyawara-females.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[3]]
 graphics.off()
 
-svglite::svglite(file = paste0(figpathout, "uganda-captive.svg"), width = 11, height = 8)
+svglite::svglite(file = paste0(pathout, "length/uganda-captive.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[4]]
 graphics.off()
 
-svglite::svglite(file = paste0(figpathout, "sanwa-combined.svg"), width = 11, height = 8)
+svglite::svglite(file = paste0(pathout, "length/sanwa-combined.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[5]]
 graphics.off()
 
-svglite::svglite(file = paste0(figpathout, "sanwa-male.svg"), width = 11, height = 8)
+svglite::svglite(file = paste0(pathout, "length/sanwa-male.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[6]]
 graphics.off()
 
-svglite::svglite(file = paste0(figpathout, "sanwa-female.svg"), width = 11, height = 8)
+svglite::svglite(file = paste0(pathout, "length/sanwa-female.svg"), width = 11, height = 8)
 IRNLSmodels$fullplots[[7]]
 graphics.off()
 
@@ -107,9 +107,24 @@ growthveloc_SO <- IRNLSmodels %>%
   dplyr::select(c("model", "medianCIpredsSO")) %>%
   tidyr::unnest()
 
-readr::write_csv(x = growthest_FO, path = paste0(figpathout, "FO_growth_est_predictions_forcurves.csv"))
-readr::write_csv(x = growthveloc_SO, path = paste0(figpathout, "SO_growth_veloc_predictions_forcurves.csv"))
+readr::write_csv(x = growthest_FO, path = paste0(pathout, "length/FO_growth_est_predictions_forcurves.csv"))
+readr::write_csv(x = growthveloc_SO, path = paste0(pathout, "length/SO_growth_veloc_predictions_forcurves.csv"))
 
+#...................................................
+# Write out params from models
+#....................................................
+growthest_params_ONLS <- ONLSmodels %>%
+  dplyr::select(c("model", "lowerCIparams", "medianCIparams", "upperCIparams")) %>%
+  tidyr::unnest()
+
+
+growthest_params_IRNLS <- IRNLSmodels %>%
+  dplyr::select(c("model", "lowerCIparams", "medianCIparams", "upperCIparams")) %>%
+  tidyr::unnest()
+
+
+readr::write_csv(x = growthest_params_ONLS, path = paste0(pathout, "length/ONLS_params_ests.csv"))
+readr::write_csv(x = growthest_params_IRNLS, path = paste0(pathout, "length/IRNLS_params_ests.csv"))
 
 
 
